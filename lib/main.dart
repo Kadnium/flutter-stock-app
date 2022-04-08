@@ -9,7 +9,7 @@ import 'package:flutter_stonks/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (defaultTargetPlatform == TargetPlatform.android && !kIsWeb) {
     // Add support for 120hz displays
@@ -66,7 +66,7 @@ class StonksApp extends StatelessWidget {
         }
         return ThemeMode.light;
       }), */
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       theme: ThemeData.light().copyWith(
           appBarTheme: const AppBarTheme().copyWith(
             backgroundColor: Colors.white,

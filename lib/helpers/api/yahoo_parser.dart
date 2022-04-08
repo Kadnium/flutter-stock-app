@@ -1,3 +1,4 @@
+import 'package:candlesticks/candlesticks.dart';
 import 'package:flutter_stonks/models/stock_model.dart';
 import 'package:interactive_chart/interactive_chart.dart';
 
@@ -20,9 +21,9 @@ class YahooParser {
     return true;
   }
 
-  List<CandleData> parseChartData(Map<String, dynamic> json) {
+  List<Candle> parseChartData(Map<String, dynamic> json) {
     Map<String, dynamic>? meta = json["chart"]["result"][0];
-    List<CandleData> candles = [];
+    List<Candle> candles = [];
     if (meta != null) {
       List<dynamic> timestamps = meta["timestamp"];
       Map<String, dynamic> inds = meta["indicators"]["quote"][0];
@@ -35,20 +36,27 @@ class YahooParser {
         if (isDataValid([close, open, high, volume, low, timestamps], i)) {
           //if(i<close.length && i<open.length && i<high.length && i<volume.length&& i<low.length){
           double vol = volume[i].toDouble();
-          if(vol == 0.0){
+          if (vol == 0.0) {
             vol = 1;
           }
-          candles.add(CandleData(
-              timestamp: timestamps[i]*1000,
-              high: high[i],
-              low: low[i],
+          double hi = high[i];
+          double lo = low[i];
+          // High and low can't be equal
+          if (hi == lo) {
+            hi = hi + 0.01;
+          }
+
+          candles.add(Candle(
+              date: DateTime.fromMillisecondsSinceEpoch(timestamps[i] * 1000),
+              high: hi,
+              low: lo,
               open: open[i],
               close: close[i],
-              volume:vol));
+              volume: vol));
         }
       }
     }
-    return candles;
+    return candles.reversed.toList();
   }
 
   List<Stock> parseTickerNameData(Map<String, dynamic> json) {
