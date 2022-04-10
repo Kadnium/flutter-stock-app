@@ -5,6 +5,8 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_stonks/controllers/app_state.dart';
 import 'package:flutter_stonks/controllers/search_state.dart';
 import 'package:flutter_stonks/controllers/stock_data_state.dart';
+import 'package:flutter_stonks/helpers/shared_preferences_helper.dart';
+import 'package:flutter_stonks/models/stock_model.dart';
 import 'package:flutter_stonks/routes.dart';
 import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
@@ -22,9 +24,15 @@ void main() async {
     }
   }
 
+  bool darkTheme = await SharedPreferencesHelper.getThemeMode();
+  bool lineChart = await SharedPreferencesHelper.getLineChart();
+  List<Stock> favourites = await SharedPreferencesHelper.getFavourites();
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => StockDataState()),
-    ChangeNotifierProvider(create: (context) => AppState()),
+    ChangeNotifierProvider(
+        create: (context) => StockDataState(favouriteList: favourites)),
+    ChangeNotifierProvider(
+        create: (context) =>
+            AppState(darkTheme: darkTheme, lineChart: lineChart)),
     ChangeNotifierProvider(create: (context) => SearchState()),
   ], child: const StonksApp()));
 }
@@ -51,7 +59,7 @@ class StonksApp extends StatelessWidget {
           appBarTheme: const AppBarTheme()
               .copyWith(backgroundColor: const Color(0xFF1a202c)),
           //bottomAppBarTheme: const BottomAppBarTheme().copyWith(),
-          iconTheme: IconThemeData().copyWith(color: Colors.white),
+          iconTheme: const IconThemeData().copyWith(color: Colors.white),
           // tabBarTheme: const TabBarTheme()
           //     .copyWith(labelColor:Colors.white ),
           bottomAppBarColor: const Color(0xFF1a202c),
@@ -60,13 +68,13 @@ class StonksApp extends StatelessWidget {
           colorScheme: const ColorScheme.dark(
               primary: Colors.green, secondary: Color(0xFF253764)),
           primaryColorLight: const Color(0xFF28aae1)),
-      /*  themeMode: context.select((AppState a) {
+      themeMode: context.select((AppState a) {
         if (a.darkTheme) {
           return ThemeMode.dark;
         }
         return ThemeMode.light;
-      }), */
-      themeMode: ThemeMode.dark,
+      }),
+
       theme: ThemeData.light().copyWith(
           appBarTheme: const AppBarTheme().copyWith(
             backgroundColor: Colors.white,

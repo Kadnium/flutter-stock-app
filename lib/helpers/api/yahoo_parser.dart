@@ -1,6 +1,6 @@
-import 'package:candlesticks/candlesticks.dart';
+import 'package:flutter_stonks/models/chart_data_model.dart';
 import 'package:flutter_stonks/models/stock_model.dart';
-import 'package:interactive_chart/interactive_chart.dart';
+import 'package:flutter_stonks/models/chart_candle_model.dart';
 
 class YahooParser {
   bool hasKeys(Map<String, dynamic> json, List<String> keys) {
@@ -21,10 +21,12 @@ class YahooParser {
     return true;
   }
 
-  List<Candle> parseChartData(Map<String, dynamic> json) {
+  ChartData parseChartData(Map<String, dynamic> json) {
     Map<String, dynamic>? meta = json["chart"]["result"][0];
-    List<Candle> candles = [];
+    List<CustomChartCandle> candles = [];
+    double previousChartClose = 0;
     if (meta != null) {
+      previousChartClose = meta["meta"]["chartPreviousClose"];
       List<dynamic> timestamps = meta["timestamp"];
       Map<String, dynamic> inds = meta["indicators"]["quote"][0];
       List<dynamic> close = inds["close"];
@@ -34,7 +36,6 @@ class YahooParser {
       List<dynamic> low = inds["low"];
       for (int i = 0; i < timestamps.length; i++) {
         if (isDataValid([close, open, high, volume, low, timestamps], i)) {
-          //if(i<close.length && i<open.length && i<high.length && i<volume.length&& i<low.length){
           double vol = volume[i].toDouble();
           if (vol == 0.0) {
             vol = 1;
@@ -46,8 +47,9 @@ class YahooParser {
             hi = hi + 0.01;
           }
 
-          candles.add(Candle(
-              date: DateTime.fromMillisecondsSinceEpoch(timestamps[i] * 1000),
+          candles.add(CustomChartCandle(
+              timestamp:
+                  DateTime.fromMillisecondsSinceEpoch(timestamps[i] * 1000),
               high: hi,
               low: lo,
               open: open[i],
@@ -56,7 +58,8 @@ class YahooParser {
         }
       }
     }
-    return candles.reversed.toList();
+    return ChartData(
+        chartData: candles, previousChartClose: previousChartClose);
   }
 
   List<Stock> parseTickerNameData(Map<String, dynamic> json) {

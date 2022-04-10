@@ -1,27 +1,17 @@
 import 'dart:convert';
 
+import 'package:flutter_stonks/models/stock_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {
-  static const kUserKey = "RETKIPAIKKA_USER";
-  static const kAccessToken = "RETKIPAIKKA_TOKEN";
-  static const kThemeMode = "RETKIPAIKKA_THEME";
-  static const kUserFavourites = "RETKIPAIKKA_FAVOURITES";
-  static const kSeenNotifications = "RETKIPAIKKA_NOTIFICATIONS";
-  static const kAppLocale = "RETKIPAIKKA_LOCALE";
+  static const kThemeMode = "STONKS_APP_THEME";
+  static const kLineChart = "STONKS_LINE_CHART";
+  static const kUserFavourites = "STONKS_FAVOURITES";
+
   static Future<bool> saveToPrefs(String key, String value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(key, value);
   }
-
-  static Future<bool> saveLocale(String name) {
-    return saveToPrefs(kAppLocale, name);
-  }
-
-  static Future<String?> getLocale() async {
-    return getStringFromPrefs(kAppLocale);
-  }
-
 
   static Future<List<dynamic>?> getUserFavourites() async {
     String? val = await getStringFromPrefs(kUserFavourites);
@@ -31,54 +21,42 @@ class SharedPreferencesHelper {
     return null;
   }
 
-  static Future<bool> addUserFavourite(String id) async {
-    List<dynamic> currentFavourites = await getUserFavourites() ?? [];
-    currentFavourites.add(id);
-    String encoded = jsonEncode(currentFavourites);
-    return saveToPrefs(kUserFavourites, encoded);
-  }
-
-  static Future<bool> removeUserFavourite(String id) async {
-    List<dynamic> currentFavourites = await getUserFavourites() ?? [];
-
-    currentFavourites =
-        currentFavourites.where((element) => element != id).toList();
-
-    String encoded = jsonEncode(currentFavourites);
-    return saveToPrefs(kUserFavourites, encoded);
-  }
-
-  static Future<List<dynamic>?> getNotificationIds() async {
-    String? res = await getStringFromPrefs(kSeenNotifications);
-
-    if (res != null) {
-      return jsonDecode(res);
-    }
-    return null;
-  }
-
-  static Future<bool> saveNotificationId(String id) async {
-    List<dynamic> currentNotis = await getNotificationIds() ?? [];
-
-    currentNotis.add(id);
-
-    return saveToPrefs(kSeenNotifications, jsonEncode(currentNotis));
-  }
-
-  static Future<bool> deleteLogin() async {
-    return deleteFromPrefs(kAccessToken)
-        .then((value) => deleteFromPrefs(kUserKey));
-  }
-
   static Future<String?> getSavedToken() async {
-    return await getStringFromPrefs(kAccessToken);
+    return "NONE";
   }
 
-  static Future<String?> getThemeMode() async {
-    return await getStringFromPrefs(kThemeMode);
+  static Future<bool> saveFavourites(List<Stock> favourites) async {
+    String? encoded =
+        jsonEncode(favourites.map((Stock s) => Stock.toJson(s)).toList());
+    return saveToPrefs(kUserFavourites, encoded);
   }
 
+  static Future<List<Stock>> getFavourites() async {
+    String? value = await getStringFromPrefs(kUserFavourites);
+    if (value != null) {
+      List<dynamic> decoded = jsonDecode(value);
+      return decoded.map((s) => Stock.fromJson(s)).toList();
+    }
+    return [];
+  }
 
+  static Future<bool> saveLineChart(bool status) async {
+    return await saveToPrefs(kLineChart, status.toString());
+  }
+
+  static Future<bool> saveThemeMode(bool theme) async {
+    return await saveToPrefs(kThemeMode, theme.toString());
+  }
+
+  static Future<bool> getThemeMode() async {
+    String? val = await getStringFromPrefs(kThemeMode);
+    return val == "true";
+  }
+
+  static Future<bool> getLineChart() async {
+    String? val = await getStringFromPrefs(kLineChart);
+    return val == "true";
+  }
 
   static Future<bool> deleteFromPrefs(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

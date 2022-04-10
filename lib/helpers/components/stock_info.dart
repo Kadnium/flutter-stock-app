@@ -53,7 +53,7 @@ class StockInfo extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: Responsive.isMobile(context) ? 200 : null,
+                          width: Responsive.isMobile(context) ? 180 : null,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +74,7 @@ class StockInfo extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(stock.marketPrice.toString(),
+                              Text(stock.marketPrice.toStringAsFixed(2),
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline6), //style:const TextStyle(fontWeight:FontWeight.bold,fontSize: )),

@@ -19,7 +19,7 @@ class MostChangedContainer extends HookWidget {
       if (mostChanged.isEmpty) {
         isLoading.value = true;
         yahooApi.getDailyMovers().then((stocks) {
-          state.setMostChangedData(stocks);
+          state.setMostChangedData(state.checkIfFavourite(stocks));
         }).catchError((err) {
           print(err);
         }).whenComplete(() => isLoading.value = false);

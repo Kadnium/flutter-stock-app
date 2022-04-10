@@ -1,10 +1,10 @@
-import 'package:candlesticks/candlesticks.dart';
 import 'package:flutter_stonks/constants.dart';
 import 'package:flutter_stonks/helpers/api/base_api.dart';
 import 'package:flutter_stonks/helpers/api/stock_api_interface.dart';
 import 'package:flutter_stonks/helpers/api/yahoo_parser.dart';
+import 'package:flutter_stonks/models/chart_data_model.dart';
 import 'package:flutter_stonks/models/stock_model.dart';
-import 'package:interactive_chart/interactive_chart.dart';
+import 'package:flutter_stonks/models/chart_candle_model.dart';
 
 class YahooApi extends BaseApi implements StockApiInterface {
   YahooApi({String route = ""}) : super(route);
@@ -143,8 +143,7 @@ class YahooApi extends BaseApi implements StockApiInterface {
   }
 
   @override
-  Future<List<Candle>> getChartData(
-      String symbol, List<String> interval) async {
+  Future<ChartData> getChartData(String symbol, List<String> interval) async {
     Map<String, String> params = {
       "symbol": symbol,
       "interval": interval[0],
@@ -161,5 +160,24 @@ class YahooApi extends BaseApi implements StockApiInterface {
     Map<String, dynamic> chartData = parseResponse(response);
 
     return yahooParser.parseChartData(chartData);
+  }
+
+  @override
+  Future<List<Stock>> updateStockList(List<Stock> stocks) async {
+    List<String> tickers = [];
+    for (Stock s in stocks) {
+      tickers.add(s.symbol);
+    }
+    List<Stock> fetchedResults = await getByTickerNames(tickers);
+    for (Stock s in stocks) {
+      int index =
+          fetchedResults.indexWhere((element) => element.symbol == s.symbol);
+
+      if (index != -1) {
+        Stock fs = fetchedResults[index];
+        s.updatePriceData(fs);
+      }
+    }
+    return stocks;
   }
 }

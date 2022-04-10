@@ -28,12 +28,16 @@ const Map<String, String> kIndexData = {
 };
 
 const Map<String, List<String>> kChartSettings = {
-  "1d": ["2m", "1d"],
-  "5d": ["15m", "5d"],
-  "1m": ["1h", "1mo"],
+  "1d": ["5m", "1d"],
+  "5d": ["30m", "5d"],
+  "1m": ["1d", "1mo"],
   "6m": ["1d", "6mo"],
   "ytd": ["1d", "ytd"],
   "1y": ["1d", "1y"],
   "5y": ["1wk", "5y"],
   "all": ["1mo", "max"],
 };
+
+List<String> kChartSettingList = kChartSettings.keys.toList();
+
+enum ChartType { candle, line }

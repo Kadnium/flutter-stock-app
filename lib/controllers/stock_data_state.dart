@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stonks/controllers/search_state.dart';
+import 'package:flutter_stonks/helpers/shared_preferences_helper.dart';
 import 'package:flutter_stonks/models/stock_model.dart';
 import 'package:flutter_stonks/screens/search/search_screen.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,9 @@ class StockDataState extends ChangeNotifier {
   List<Stock> favouriteList = [];
   List<Stock> stockIndexList = [];
   Stock? clickedStock;
+  bool favouritesInitialFetched = false;
+
+  StockDataState({required this.favouriteList});
   void setMostChangedData(List<Stock> data) {
     mostChangedList = data;
     notifyListeners();
@@ -22,6 +26,17 @@ class StockDataState extends ChangeNotifier {
   void setTrendingData(List<Stock> data) {
     trendingList = data;
     notifyListeners();
+  }
+
+  List<Stock> checkIfFavourite(List<Stock> listToCheck) {
+    for (Stock s in listToCheck) {
+      int index =
+          favouriteList.indexWhere((element) => element.symbol == s.symbol);
+      if (index != -1) {
+        s.isFavourite = favouriteList[index].isFavourite;
+      }
+    }
+    return listToCheck;
   }
 
   void setFavouriteData(List<Stock> data) {
@@ -42,6 +57,7 @@ class StockDataState extends ChangeNotifier {
     } else {
       unFavourite(stock, index, context);
     }
+    SharedPreferencesHelper.saveFavourites(favouriteList);
   }
 
   void setFavourite(Stock stock, BuildContext context) {

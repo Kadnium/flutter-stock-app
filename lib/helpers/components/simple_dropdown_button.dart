@@ -17,7 +17,8 @@ class SimpleDropdownButton extends HookWidget {
 
     return DropdownButton<String>(
       value: dropdownValue.value,
-      icon: const Icon(Icons.arrow_downward),
+      icon:
+          Icon(Icons.arrow_downward, color: Theme.of(context).iconTheme.color),
       elevation: 16,
       //style: const TextStyle(color: C),
       underline: Container(

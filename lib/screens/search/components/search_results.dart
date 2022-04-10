@@ -12,17 +12,6 @@ class SearchResults extends HookWidget {
   SearchResults({Key? key}) : super(key: key);
   YahooApi api = YahooApi();
 
-  List<Stock> checkFavourites(List<Stock> favourites, List<Stock> results) {
-    for (Stock s in results) {
-      int index =
-          favourites.indexWhere((element) => element.symbol == s.symbol);
-      if (index != -1) {
-        s.isFavourite = favourites[index].isFavourite;
-      }
-    }
-    return results;
-  }
-
   @override
   Widget build(BuildContext context) {
     var isLoading = useState<bool>(false);
@@ -37,7 +26,8 @@ class SearchResults extends HookWidget {
           context.read<SearchState>().lastQuery != queryString) {
         isLoading.value = true;
         api.getSearchResults(queryString).then((stocks) {
-          searchState.setSearchResults(checkFavourites(context.read<StockDataState>().favouriteList, stocks));
+          searchState.setSearchResults(
+              context.read<StockDataState>().checkIfFavourite(stocks));
           searchState.lastQuery = queryString;
         }).catchError((err) {
           print(err);

@@ -18,9 +18,11 @@ packages:
   candlesticks:
     dependency: "direct main"
     description:
-      name: candlesticks
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: "feature/range-adjust-settings"
+      resolved-ref: c1e436493ba8ffab0fd6ee8316f0afec0197dd86
+      url: "https://github.com/Kadnium/candlesticks.git"
+    source: git
     version: "2.1.0"
   characters:
     dependency: transitive
@@ -133,13 +135,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
-  interactive_chart:
-    dependency: "direct main"
-    description:
-      name: interactive_chart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.4"
   intl:
     dependency: "direct main"
     description:
@@ -341,6 +336,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "20.1.47+1"
+  syncfusion_flutter_core:
+    dependency: transitive
+    description:
+      name: syncfusion_flutter_core
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "20.1.47"
   term_glyph:
     dependency: transitive
     description:
