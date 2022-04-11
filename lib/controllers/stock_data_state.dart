@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stonks/controllers/search_state.dart';
 import 'package:flutter_stonks/helpers/shared_preferences_helper.dart';
 import 'package:flutter_stonks/models/stock_model.dart';
-import 'package:flutter_stonks/screens/search/search_screen.dart';
 import 'package:provider/provider.dart';
 
 class StockDataState extends ChangeNotifier {

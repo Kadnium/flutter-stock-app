@@ -1,5 +1,4 @@
 import 'package:flutter_stonks/models/chart_candle_model.dart';
-import 'package:flutter/material.dart';
 
 class ChartData {
   List<CustomChartCandle> chartData;

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_stonks/controllers/stock_data_state.dart';
-import 'package:flutter_stonks/helpers/responsive.dart';
-import 'package:flutter_stonks/helpers/shared_preferences_helper.dart';
+
 import 'package:flutter_stonks/screens/app_header.dart';
-import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
 class MainContainerTabPage extends StatelessWidget {
@@ -14,7 +10,7 @@ class MainContainerTabPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final tabPage = TabPage.of(context);
 
-    bool isDesktop = Responsive.isDesktop(context);
+   
     Color primaryCol = Theme.of(context).colorScheme.primary;
     Color? iconCol = Theme.of(context).iconTheme.color;
     return Scaffold(

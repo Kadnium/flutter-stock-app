@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_stonks/controllers/search_state.dart';
 import 'package:flutter_stonks/controllers/stock_data_state.dart';
-import 'package:flutter_stonks/helpers/api/yahoo_api.dart';
+import 'package:flutter_stonks/helpers/api/api_service.dart';
 import 'package:flutter_stonks/helpers/app_spinner.dart';
 import 'package:flutter_stonks/helpers/components/stock_container.dart';
-import 'package:flutter_stonks/models/stock_model.dart';
 import 'package:provider/provider.dart';
 
 class SearchResults extends HookWidget {
-  SearchResults({Key? key}) : super(key: key);
-  YahooApi api = YahooApi();
+  const SearchResults({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class SearchResults extends HookWidget {
       if (queryString.isNotEmpty &&
           context.read<SearchState>().lastQuery != queryString) {
         isLoading.value = true;
-        api.getSearchResults(queryString).then((stocks) {
+        ApiService().stockApi.getSearchResults(queryString).then((stocks) {
           searchState.setSearchResults(
               context.read<StockDataState>().checkIfFavourite(stocks));
           searchState.lastQuery = queryString;
@@ -33,6 +32,7 @@ class SearchResults extends HookWidget {
           print(err);
         }).whenComplete(() => isLoading.value = false);
       }
+      return null;
     }, [queryString]);
 
     return Stack(

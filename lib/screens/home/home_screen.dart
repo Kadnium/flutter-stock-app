@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_stonks/controllers/stock_data_state.dart';
-import 'package:flutter_stonks/helpers/api/yahoo_api.dart';
-import 'package:flutter_stonks/helpers/components/horizontal_stock_container.dart';
-import 'package:flutter_stonks/helpers/components/stock_container.dart';
-import 'package:flutter_stonks/routes.dart';
+import 'package:flutter_stonks/helpers/api/api_service.dart';
+import 'package:flutter_stonks/helpers/api/stock_api.dart';
 import 'package:flutter_stonks/screens/home/components/favourites_container.dart';
 import 'package:flutter_stonks/screens/home/components/most_changed_container.dart';
 import 'package:flutter_stonks/screens/home/components/stock_index_container.dart';
 import 'package:provider/provider.dart';
-import 'package:routemaster/routemaster.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
-  final YahooApi yahooApi = YahooApi();
+  const HomeScreen({Key? key}) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () {
+        StockApi stockApi = ApiService().stockApi;
         StockDataState s = context.read<StockDataState>();
-        return yahooApi.getStockIndexData().then((value) {
-          s.setStockIndexData(value);
-          return yahooApi.getDailyMovers();
+        return stockApi.getStockIndexData().then((value) {
+          s.setStockIndexData(s.checkIfFavourite(value));
+          return stockApi.getDailyMovers();
         }).then((value) {
-          s.setMostChangedData(value);
-          return yahooApi.updateStockList(s.favouriteList);
+          s.setMostChangedData(s.checkIfFavourite(value));
+          return stockApi.updateStockList(s.favouriteList);
         }).then((value) {
           s.setFavouriteData(value);
         }).catchError((err) {
@@ -32,20 +30,20 @@ class HomeScreen extends StatelessWidget {
       },
       child: SizedBox(
         width: double.infinity,
-        child: ListView(scrollDirection: Axis.vertical, children: [
-          const SizedBox(
+        child: ListView(scrollDirection: Axis.vertical, children: const [
+           SizedBox(
             height: 5,
           ),
           StockIndexContainer(),
-          const SizedBox(
+           SizedBox(
             height: 25,
           ),
           MostChangedContainer(),
-          const SizedBox(
+           SizedBox(
             height: 50,
           ),
-          FavouritesContainer(),
-          const SizedBox(height: 25),
+           FavouritesContainer(),
+           SizedBox(height: 25),
         ]),
       ),
     );

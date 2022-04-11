@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stonks/constants.dart';
 import 'package:flutter_stonks/helpers/shared_preferences_helper.dart';
 
 class AppState extends ChangeNotifier {

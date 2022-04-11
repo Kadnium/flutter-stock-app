@@ -1,23 +1,10 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_stonks/controllers/app_state.dart';
 import 'package:flutter_stonks/helpers/components/common_container.dart';
 import 'package:flutter_stonks/screens/settings/components/setting_switch.dart';
 import 'package:provider/provider.dart';
-
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    
-    return ListView(children: [
-      const SizedBox(
-        height: 15,
-      ),
-      AppSettings()
-    ]);
-  }
-}
 
 class AppSettings extends StatelessWidget {
   const AppSettings({

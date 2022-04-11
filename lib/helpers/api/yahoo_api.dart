@@ -1,12 +1,11 @@
 import 'package:flutter_stonks/constants.dart';
 import 'package:flutter_stonks/helpers/api/base_api.dart';
-import 'package:flutter_stonks/helpers/api/stock_api_interface.dart';
+import 'package:flutter_stonks/helpers/api/stock_api.dart';
 import 'package:flutter_stonks/helpers/api/yahoo_parser.dart';
 import 'package:flutter_stonks/models/chart_data_model.dart';
 import 'package:flutter_stonks/models/stock_model.dart';
-import 'package:flutter_stonks/models/chart_candle_model.dart';
 
-class YahooApi extends BaseApi implements StockApiInterface {
+class YahooApi extends BaseApi implements StockApi {
   YahooApi({String route = ""}) : super(route);
   YahooParser yahooParser = YahooParser();
   @override
@@ -79,11 +78,7 @@ class YahooApi extends BaseApi implements StockApiInterface {
     return [...dailyGainers, ...dailyLosers];
   }
 
-  @override
-  Future<List<Stock>> getFrontPageSymbols() {
-    // TODO: implement getFrontPageSymbols
-    throw UnimplementedError();
-  }
+
 
   @override
   Future<List<Stock>> getSearchResults(String query, {int count = 5}) async {

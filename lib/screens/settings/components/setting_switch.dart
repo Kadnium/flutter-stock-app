@@ -16,7 +16,7 @@ class SettingSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return (ListTile(
-      contentPadding: EdgeInsets.only(left: 5),
+      contentPadding: const EdgeInsets.only(left: 5),
       leading: Switch(
           activeColor: Theme.of(context).colorScheme.primary,
           // activeTrackColor: Theme.of(context).primaryColor,

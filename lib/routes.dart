@@ -7,7 +7,6 @@ import 'package:flutter_stonks/screens/search/search_screen.dart';
 import 'package:flutter_stonks/screens/settings/settings_screen.dart';
 
 import 'package:routemaster/routemaster.dart';
-import 'package:provider/provider.dart';
 
 class AppRoutes {
   static const root = "/";
@@ -43,13 +42,13 @@ class AppPages {
             context);
       },
       AppRoutes.home: (routeData) {
-        return CustomMaterialPage(child: HomeScreen());
+        return const CustomMaterialPage(child: HomeScreen());
       },
       AppRoutes.search: (routeData) {
         return CustomMaterialPage(child: SearchScreen());
       },
       AppRoutes.settings: (routeData) {
-        return CustomMaterialPage(child: const SettingsScreen());
+        return const CustomMaterialPage(child:  SettingsScreen());
       },
       AppRoutes.chartParams: (routeData) {
         return CustomMaterialPage(

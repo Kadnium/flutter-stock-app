@@ -87,20 +87,23 @@ class YahooParser {
             isFavourite: false,
             previousClose: previousClose);
 
-        if (hasKeys(quote, ["postMarketPrice", "postMarketChangePercent"])) {
+
+         if (hasKeys(quote, ["marketState"])) {
+          stock.setMarketState(quote["marketState"]);
+        }
+
+        if (hasKeys(quote, ["postMarketPrice", "postMarketChangePercent"]) && stock.marketState == MarketState.post) {
           stock.extendedHoursChange =
               quote["postMarketChangePercent"]["raw"] ?? 0;
           stock.extendedHoursPrice = quote["postMarketPrice"]["raw"] ?? 0;
         } else if (hasKeys(
-            quote, ["preMarketPrice", "preMarketChangePercent"])) {
+            quote, ["preMarketPrice", "preMarketChangePercent"]) && stock.marketState == MarketState.pre) {
           stock.extendedHoursChange =
               quote["preMarketChangePercent"]["raw"] ?? 0;
           stock.extendedHoursPrice = quote["preMarketPrice"]["raw"] ?? 0;
         }
 
-        if (hasKeys(quote, ["marketState"])) {
-          stock.setMarketState(quote["marketState"]);
-        }
+       
 
         returnArr.add(stock);
       }

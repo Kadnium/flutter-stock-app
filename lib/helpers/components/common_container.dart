@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stonks/helpers/components/stock_info.dart';
-import 'package:flutter_stonks/models/stock_model.dart';
 
 class CommonContainer extends StatelessWidget {
   const CommonContainer({Key? key, required this.title, required this.children})

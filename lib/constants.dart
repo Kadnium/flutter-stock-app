@@ -1,13 +1,15 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 
 const kBaseUrl = ""; //"http://192.168.0.4:3000/api";
 const kUseAuth = false;
+const kStockApi = StockApiDatasource.yahoo;
 
 bool isMobile() {
   return defaultTargetPlatform == TargetPlatform.android ||
       defaultTargetPlatform == TargetPlatform.iOS;
 }
+
+
 
 const Map<String, String> kIndexData = {
   "^GSPC": "S&P 500",
@@ -41,3 +43,6 @@ const Map<String, List<String>> kChartSettings = {
 List<String> kChartSettingList = kChartSettings.keys.toList();
 
 enum ChartType { candle, line }
+
+// Maybe support more api's in the future
+enum StockApiDatasource {yahoo}

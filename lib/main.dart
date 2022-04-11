@@ -5,6 +5,7 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_stonks/controllers/app_state.dart';
 import 'package:flutter_stonks/controllers/search_state.dart';
 import 'package:flutter_stonks/controllers/stock_data_state.dart';
+import 'package:flutter_stonks/helpers/api/api_service.dart';
 import 'package:flutter_stonks/helpers/shared_preferences_helper.dart';
 import 'package:flutter_stonks/models/stock_model.dart';
 import 'package:flutter_stonks/routes.dart';
@@ -23,7 +24,8 @@ void main() async {
       }
     }
   }
-
+  // init singleton
+  ApiService();
   bool darkTheme = await SharedPreferencesHelper.getThemeMode();
   bool lineChart = await SharedPreferencesHelper.getLineChart();
   List<Stock> favourites = await SharedPreferencesHelper.getFavourites();

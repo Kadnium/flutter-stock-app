@@ -29,9 +29,10 @@ class Stock {
       this.marketState = MarketState.regular});
 
   void setMarketState(String state) {
-    if (state.contains("PRE")) {
+    if (state == "PRE") {
       marketState = MarketState.pre;
-    } else if (state.contains("POST") || state.contains("CLOSED")) {
+      // "Yahoo has also state PREPRE"
+    } else if (state.contains("POST") || state.contains("CLOSED") || state.contains("PRE")) {
       marketState = MarketState.post;
     } else {
       marketState = MarketState.regular;

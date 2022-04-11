@@ -26,7 +26,7 @@ class StockIndexInfo extends StatelessWidget {
             children: [
               Text(
                 stock.name,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(stock.marketPrice.toString()),
               MarketChangeText(marketChange: stock.marketChange)
