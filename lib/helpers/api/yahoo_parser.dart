@@ -73,10 +73,16 @@ class YahooParser {
         "regularMarketPrice",
         "regularMarketChangePercent"
       ])) {
-        double marketPrice = quote["regularMarketPrice"]["raw"] ?? 0;
-        double marketChangePercent =
-            quote["regularMarketChangePercent"]["raw"] ?? 0;
-        double previousClose = quote["regularMarketPreviousClose"]["raw"] ?? 0;
+        print(quote);
+        double marketPrice = quote["regularMarketPrice"] != null
+            ? quote["regularMarketPrice"]["raw"]
+            : 0;
+        double marketChangePercent = quote["regularMarketChangePercent"] != null
+            ? quote["regularMarketChangePercent"]["raw"]
+            : 0;
+        double previousClose = quote["regularMarketPreviousClose"] != null
+            ? quote["regularMarketPreviousClose"]["raw"]
+            : 0;
 
         Stock stock = Stock(
             symbol: quote["symbol"],
@@ -87,23 +93,22 @@ class YahooParser {
             isFavourite: false,
             previousClose: previousClose);
 
-
-         if (hasKeys(quote, ["marketState"])) {
+        if (hasKeys(quote, ["marketState"])) {
           stock.setMarketState(quote["marketState"]);
         }
 
-        if (hasKeys(quote, ["postMarketPrice", "postMarketChangePercent"]) && stock.marketState == MarketState.post) {
+        if (hasKeys(quote, ["postMarketPrice", "postMarketChangePercent"]) &&
+            stock.marketState == MarketState.post) {
           stock.extendedHoursChange =
               quote["postMarketChangePercent"]["raw"] ?? 0;
           stock.extendedHoursPrice = quote["postMarketPrice"]["raw"] ?? 0;
         } else if (hasKeys(
-            quote, ["preMarketPrice", "preMarketChangePercent"]) && stock.marketState == MarketState.pre) {
+                quote, ["preMarketPrice", "preMarketChangePercent"]) &&
+            stock.marketState == MarketState.pre) {
           stock.extendedHoursChange =
               quote["preMarketChangePercent"]["raw"] ?? 0;
           stock.extendedHoursPrice = quote["preMarketPrice"]["raw"] ?? 0;
         }
-
-       
 
         returnArr.add(stock);
       }

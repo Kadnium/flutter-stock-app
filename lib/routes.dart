@@ -37,7 +37,7 @@ class AppPages {
                   AppRoutes.search,
                   AppRoutes.settings,
                 ],
-                // backBehavior: TabBackBehavior.history,
+                backBehavior: TabBackBehavior.history,
                 child: const MainContainerTabPage()),
             context);
       },
@@ -45,10 +45,10 @@ class AppPages {
         return const CustomMaterialPage(child: HomeScreen());
       },
       AppRoutes.search: (routeData) {
-        return CustomMaterialPage(child: SearchScreen());
+        return const CustomMaterialPage(child: SearchScreen());
       },
       AppRoutes.settings: (routeData) {
-        return const CustomMaterialPage(child:  SettingsScreen());
+        return const CustomMaterialPage(child: SettingsScreen());
       },
       AppRoutes.chartParams: (routeData) {
         return CustomMaterialPage(

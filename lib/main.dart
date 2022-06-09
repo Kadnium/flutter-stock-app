@@ -47,7 +47,7 @@ class StonksApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       scrollBehavior: CustomScrollBehavior(),
-      title: 'Partion retkipaikat',
+      title: 'Stonks',
       debugShowCheckedModeBanner: false,
       //supportedLocales: kSupportedLocales.keys.map((locale) => Locale(locale)),
       //locale: context.select((AppState a) => a.appLocale),
